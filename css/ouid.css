@@ -37,3 +37,13 @@ td:nth-child(5)
 #ui-event, #ui-staff, #ui-tracker, #back-button {
     display: none;
 }
+
+#swipeStatus{
+    color: green; 
+    margin-left: 20px; 
+    visibility: hidden;
+}
+
+#manualAddTextInput{
+    width: 150px;
+}
