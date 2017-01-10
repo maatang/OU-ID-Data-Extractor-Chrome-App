@@ -40,6 +40,7 @@ function setupCheckboxListeners() {
 }
 
 function addRecordByData(gnum, date, eventName, staffName) {
+	
     dt.row.add([
         gnum,
         getDateFormatted(),
@@ -55,16 +56,17 @@ function addRecordByData(gnum, date, eventName, staffName) {
     adjustColumnSize();
     $('#download-swipe-btn').prop("disabled", false);
     setupCheckboxListeners();
+	
 }
 
 function addRecord() {
-    if (dt) {
+    if (dt && ($('#gnumber').val().length > 3)) {
         cancelClearGNum();
-        var gnum = $('#gnumber').val();
+        var gnum = $('#gnumber').val().substring($('#gnumber').val().length - 4, $('#gnumber').val().length); //Always saves last 4 digits of gnumber.
         var eventName = $('#event-name').val();
         var staffName = $('#staff-name').val();
 
-        if (gnum && eventName && staffName) {
+        if (gnum && eventName && staffName) { //gnum must be atleast 4 characters.
 
             // Only allow numerical or G####### style inputs
             if (isNaN(gnum)) {
@@ -102,6 +104,10 @@ function addEventByName(eventName) {
     }
 }
 
+function manualAdd(){
+	
+}
+
 function addEvent() {
     var eventName = $('#new-event').val();
     if (eventName) {
@@ -132,12 +138,15 @@ function addStaff() {
 }
 
 function onEnter(id, callback) {
+	console.log(id);
     $(id).keyup(function (e) {
         if (e.keyCode == 13) {
             callback();
         }
     });
+	
 }
+
 
 function clearGNum() {
     $('#gnumber').val('');
@@ -146,16 +155,28 @@ function clearGNum() {
 function cancelClearGNum() {
     window.clearTimeout(clearGNumTimeoutID);
 }
+function printHello(){ //debugging function
+	document.write("hello");
+}
+
+function showReady(){ //Displays ready text	when swipe is ready.
+	$('#swipeStatus').css('visibility', 'visible');
+}
+
+function hideReady(){ //Hides ready text when swipe won't work.
+	$('#swipeStatus').css('visibility', 'hidden');
+}
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    onEnter('#gnumber', addRecord);
+    onEnter('#gnumber', addRecord); //auto add record on swipe 
+	
     onEnter('#new-event', addEvent);
-    onEnter('#new-staff', addStaff);
-    $('#add-record-btn').on('click', addRecord);
+    onEnter('#new-staff', addStaff);    
     $('#add-event-btn').on('click', addEvent);
     $('#add-staff-btn').on('click', addStaff);
-
+	$('#manual-add').on('click', manualAdd);
+	
     $('#tracker-button').on('click', function() {
         $('#ui-staff').hide();
         $('#ui-event').hide();
@@ -167,8 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $('#staff-error').css('visibility', 'hidden');
         $('#data-table :checked').attr('checked', false);
         $('#delete-selected').prop("disabled", true);
-        $('#ui-tracker').show();
-        $('#gnumber').focus();
+        $('#ui-tracker').show();        
 
         // fix to accomodate for lack of resizing table headers when display: none;
         adjustColumnSize();
@@ -197,24 +217,23 @@ document.addEventListener('DOMContentLoaded', function() {
     $('#event-name').on('change', function() {
         if ($('#event-name').val()) {
             $('#event-error').css('visibility', 'hidden');
-        }
-        $('#gnumber').focus();
+        }        
     });
 
     $('#staff-name').on('change', function() {
         if ($('#staff-name').val()) {
             $('#staff-error').css('visibility', 'hidden');
-        }
-        $('#gnumber').focus();
+        }        
     });
 
     $('#gnumber').on('input', function() {
         cancelClearGNum();
-        clearGNumTimeoutID = window.setTimeout(clearGNum, 5000)
+        clearGNumTimeoutID = window.setTimeout(clearGNum, 2);
     });
 
     $('#gnumber').on('change', cancelClearGNum);
-
+	$('#gnumber').on('focus', showReady);
+	$('#gnumber').on('blur', hideReady);
     dt = $('#data-table').DataTable({
         "scrollY":        "200px",
         "scrollCollapse": true,
@@ -278,6 +297,11 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+	
+	$('#swipe-add').on('click', function() { 
+		document.getElementById('gnumber').focus(); //Allows user to swipe card
+		//TODO need to add text that says SWIPE READY in green with cancel button below.
+	});
 
     $('#delete-selected').on('click', function() {
         var rows = $('#data-table :checked').parent().parent()
