@@ -1,138 +1,135 @@
 <!DOCTYPE html>
 <html>
-<head>
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/ouid.css">
-<link rel="stylesheet" type="text/css" href="css/datatables.min.css"/>
-<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-<script type="text/javascript" src="js/datatables.min.js"></script>
-<script type="text/javascript" src="js/cd.js"></script>
-<script type="text/javascript" src="js/fileio.js"></script>
-<script type="text/javascript" src="js/ouid.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
-<body>
     
-<div class="container">
-  <h1 id="header">Event Tracking System</h1>
+    <head>
+        <!-- Style Sheets -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/ouid.css">
+        <link rel="stylesheet" type="text/css" href="css/datatables.min.css"/>
+        
+        <!-- Dependencies -->
+        <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="js/datatables.min.js"></script>
+        <script type="text/javascript" src="js/cd.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        
+        <!-- Scripts -->
+        <script type="text/javascript" src="js/fileio.js"></script>
+        <script type="text/javascript" src="js/ouid.js"></script>        
+    </head>
     
-  <ul class="nav nav-tabs">    
-    <li><a data-toggle="tab" href="#staff">Staff Manager</a></li>
-    <li><a data-toggle="tab" href="#event">Event Manager</a></li>    
-    <li class="active"><a data-toggle="tab" href="#tracker">Tracker</a></li>
-  </ul>
-    <br>
-  <div class="tab-content">
-    <div id="tracker" class="tab-pane fade in active">
-            <table>       
-		<tr>
-            <td class="tracker-cell tracker-col1">Staff Name</td>
-            <td class="tracker-cell">
-                <select id="staff-name" class="form-control tracker-col2">
+  <body>
+    <div class="container">
+      <h1 id="header">Event Tracking System</h1>
+
+      <ul class="nav nav-tabs">    
+        <li><a data-toggle="tab" href="#staff">Staff Manager</a></li>
+        <li><a data-toggle="tab" href="#event">Event Manager</a></li>    
+        <li class="active"><a data-toggle="tab" href="#tracker">Tracker</a></li>
+      </ul>
+        
+        <br>
+        
+      <div class="tab-content">
+        <div id="tracker" class="tab-pane fade in active">
+                <table>       
+            <tr>
+                <td class="tracker-cell tracker-col1">Staff Name</td>
+                <td class="tracker-cell">
+                    <select id="staff-name" class="form-control tracker-col2">
+                        <option value="" disabled selected hidden>Select a Staff Member</option>
+                    </select>
+                </td>
+                <td class="tracker-cell tracker-error" id="staff-error"><strong>Enter a staff name</strong></td>
+            </tr>
+            <tr>
+                <td class="tracker-cell tracker-col1">Event Name</td>
+                <td class="tracker-cell">
+                    <select id="event-name" class="form-control tracker-col2">
+                        <option value="" disabled selected hidden>Select an Event</option>
+                    </select>
+                </td>
+                <td class="tracker-cell tracker-error" id="event-error"><strong>Enter an event name</strong></td>
+            </tr>       
+            <tr>
+                <td class="tracker-cell tracker-col1">Grizzly ID</td>            
+                <td class="tracker-cell tracker-col2"><input type="button" id="swipe-add" class="btn btn-default" value="Swipe Card Add">
+                <input type="button" id="manual-add" class="btn btn-default" value="Manual Add" data-toggle="modal" data-target="#myModal"></td>
+                 <td><div style="height: 0px; width: 0px; overflow: hidden;"> <input type="password" id="gnumber"  style="height: 0px; width: 0px; opacity: 0;"></div></td>
+            </tr>	
+             <tr>
+            <td class="tracker-cell tracker-col1"></td> 		 
+             <td class="tracker-cell trackercol2">
+                 <label id="swipeStatus">Swipe Card</label>            
+            </td>		          
+            </tr>
+        </table>
+
+        <table id="data-table" class="display">
+            <thead>
+                <tr>
+                    <th>G#</th>
+                    <th>Time</th>
+                    <th>Event Name</th>
+                    <th>Staff Name</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <input disabled type="button" value="Download and DELETE ALL Swipe Data" id="download-swipe-btn" class="btn btn-danger" style="margin-top: 10px; float: left;">
+        <input disabled type="button" value="Delete Selected Records" id="delete-selected" class="btn btn-danger" style="margin-top: 10px; float: right;">
+        </div>
+
+        <div id="staff" class="tab-pane fade">
+            <div style="margin: 10px 0;">
+                <input id="new-staff" type="text" placeholder="Staff Name" class="form-control" style="float: left; width: 250px; margin-right: 10px;">
+                <input type="button" id="add-staff-btn" class="btn btn-default" value="Add Staff Member">
+            </div>
+            <div style="margin: 10px 0;">
+                <select id="staff-manager-list" class="form-control" style="float: left; width: 250px; margin-right: 10px;">
                     <option value="" disabled selected hidden>Select a Staff Member</option>
                 </select>
-            </td>
-            <td class="tracker-cell tracker-error" id="staff-error"><strong>Enter a staff name</strong></td>
-        </tr>
-        <tr>
-            <td class="tracker-cell tracker-col1">Event Name</td>
-            <td class="tracker-cell">
-                <select id="event-name" class="form-control tracker-col2">
+                <input type="button" id="delete-staff-btn" class="btn btn-danger" value="Delete Staff Member">
+            </div>
+        </div>
+
+        <div id="event" class="tab-pane fade">
+            <div style="margin: 10px 0;">
+                <input id="new-event" type="text" placeholder="Event Name" class="form-control" style="float: left; width: 250px; margin-right: 10px;">
+                <input type="button" class="btn btn-default" id="add-event-btn" value="Add Event">
+            </div>
+            <div style="margin: 10px 0;">
+                <select id="event-manager-list" class="form-control" style="float: left; width: 250px; margin-right: 10px;">
                     <option value="" disabled selected hidden>Select an Event</option>
                 </select>
-            </td>
-            <td class="tracker-cell tracker-error" id="event-error"><strong>Enter an event name</strong></td>
-        </tr>       
-		<tr>
-            <td class="tracker-cell tracker-col1">Grizzly ID</td>            
-            <td class="tracker-cell tracker-col2"><input type="button" id="swipe-add" class="btn btn-default" value="Swipe Card Add">
-            <input type="button" id="manual-add" class="btn btn-default" value="Manual Add" data-toggle="modal" data-target="#myModal"></td>
-			 <td><div style="height: 0px; width: 0px; overflow: hidden;"> <input type="password" id="gnumber"  style="height: 0px; width: 0px; opacity: 0;"></div></td>
-        </tr>	
-		 <tr>
-	    <td class="tracker-cell tracker-col1"></td> 		 
-		 <td class="tracker-cell trackercol2">
-             <label id="swipeStatus">Swipe Card</label>            
-        </td>		          
-		</tr>
-    </table>
-    
-    <table id="data-table" class="display">
-        <thead>
-            <tr>
-                <th>G#</th>
-                <th>Time</th>
-                <th>Event Name</th>
-                <th>Staff Name</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-    <input disabled type="button" value="Download and DELETE ALL Swipe Data" id="download-swipe-btn" class="btn btn-danger" style="margin-top: 10px; float: left;">
-    <input disabled type="button" value="Delete Selected Records" id="delete-selected" class="btn btn-danger" style="margin-top: 10px; float: right;">
-
-        
-    </div>
-      
-    <div id="staff" class="tab-pane fade">
-        <div style="margin: 10px 0;">
-            <input id="new-staff" type="text" placeholder="Staff Name" class="form-control" style="float: left; width: 250px; margin-right: 10px;">
-            <input type="button" id="add-staff-btn" class="btn btn-default" value="Add Staff Member">
-        </div>
-        <div style="margin: 10px 0;">
-            <select id="staff-manager-list" class="form-control" style="float: left; width: 250px; margin-right: 10px;">
-                <option value="" disabled selected hidden>Select a Staff Member</option>
-            </select>
-            <input type="button" id="delete-staff-btn" class="btn btn-danger" value="Delete Staff Member">
-        </div>
-    </div>
-      
-    <div id="event" class="tab-pane fade">
-        <div style="margin: 10px 0;">
-            <input id="new-event" type="text" placeholder="Event Name" class="form-control" style="float: left; width: 250px; margin-right: 10px;">
-            <input type="button" class="btn btn-default" id="add-event-btn" value="Add Event">
-        </div>
-        <div style="margin: 10px 0;">
-            <select id="event-manager-list" class="form-control" style="float: left; width: 250px; margin-right: 10px;">
-                <option value="" disabled selected hidden>Select an Event</option>
-            </select>
-            <input type="button" id="delete-event-btn" class="btn btn-danger" value="Delete Event">
-        </div>
-    </div>
-  </div>
-    
-            
-        <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Manual Add</h4>
-        </div>
-        <div class="modal-body">
-          <input type="text" class="form-control" placeholder="Last 4 Digits of G#" maxlength="4" id="manualAddTextInput">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Add</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <input type="button" id="delete-event-btn" class="btn btn-danger" value="Delete Event">
+            </div>
         </div>
       </div>
-      
+
+
+      <!-- Manual Add Modal Popup -->
+      <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Manual Add</h4>
+            </div>
+            <div class="modal-body">
+                <div layout="row">
+                    <input type="text" class="form-control" placeholder="Last 4 Digits of G#" maxlength="4" id="manualAddTextInput">
+                </div>          
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="manualAddModalButton">Add</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
         </div>
-      </div>
-    
-</div>
-
-    
-    
-    
-    
-
-    
+     </div>    
+    </div>
 </body>
 </html>

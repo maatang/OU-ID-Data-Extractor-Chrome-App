@@ -46,4 +46,9 @@ td:nth-child(5)
 
 #manualAddTextInput{
     width: 150px;
+    margin:auto;
+}
+
+#manual-add{
+    width: 120px;
 }
