@@ -97,7 +97,7 @@
 
         <div id="event" class="tab-pane fade">
             <div style="margin: 10px 0;">
-                <input id="new-event" type="text" placeholder="Event Name" class="form-control" style="float: left; width: 250px; margin-right: 10px;">
+                <input id="new-event" type="text" placeholder="Event Name" class="form-control">
                 <input type="button" class="btn btn-default" id="add-event-btn" value="Add Event">
             </div>
             <div style="margin: 10px 0;">
@@ -109,7 +109,6 @@
         </div>
       </div>
 
-
       <!-- Manual Add Modal Popup -->
       <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog modal-sm">
@@ -120,11 +119,12 @@
             </div>
             <div class="modal-body">
                 <div layout="row">
-                    <input type="text" class="form-control" placeholder="Last 4 Digits of G#" maxlength="4" id="manualAddTextInput">
+                    <label>Last 4 Digits of G#</label>
+                    <input type="text" class="form-control" placeholder="####" maxlength="4" id="manualAddTextInput">
                 </div>          
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal" id="manualAddModalButton">Add</button>
+              <button type="button" class="btn btn-default" id="manualAddModalButton">Add</button>
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
           </div>

@@ -11,6 +11,10 @@ function adjustColumnSize() {
     }
 }
 
+function isNullOrWhitespace(input) {
+  return !input || !input.trim();
+}
+
 function getDateFormatted() {
     var date = new Date();
     var month = date.getMonth() + 1;
@@ -59,10 +63,32 @@ function addRecordByData(gnum, date, eventName, staffName) {
 	
 }
 
-function addRecord() {
-    if (dt && ($('#gnumber').val().length > 3)) {
+function addSwipeRecord(){
+    if($('#gnumber').val().length > 3){
+        var gnum = $('#gnumber').val().substring($('#gnumber').val().length - 4, $('#gnumber').val().length); //Always saves last 4 digits
+        if(!isNullOrWhitespace(gnum)){
+         addRecord(gnum);   
+        }
+    }
+}
+
+function addManualRecord(){
+    if(!isNullOrWhitespace($('#manualAddTextInput').val())){
+        var gnum = $('#manualAddTextInput').val();
+        if(gnum.length > 3){
+            addRecord(gnum);
+            $('#myModal').modal('hide');
+        }else{
+            //TODO add error feedback when 4 digits aren't provided.
+            //$('#swipeStatus').css('visibility', 'hidden');
+        }
+    }
+}
+
+function addRecord(gnumber) {
+    if (dt && !(isNullOrWhitespace(gnumber))) {
         cancelClearGNum();
-        var gnum = $('#gnumber').val().substring($('#gnumber').val().length - 4, $('#gnumber').val().length); //Always saves last 4 digits of gnumber.
+        var gnum = gnumber;
         var eventName = $('#event-name').val();
         var staffName = $('#staff-name').val();
 
@@ -102,10 +128,6 @@ function addEventByName(eventName) {
         $('#event-name').append(newElement);
         usedEvents.push(eventName);
     }
-}
-
-function manualAdd(){
-	
 }
 
 function addEvent() {
@@ -150,13 +172,11 @@ function onEnter(id, callback) {
 
 function clearGNum() {
     $('#gnumber').val('');
+    $('#manualAddTextInput').val('');
 }
 
 function cancelClearGNum() {
     window.clearTimeout(clearGNumTimeoutID);
-}
-function printHello(){ //debugging function
-	document.write("hello");
 }
 
 function showReady(){ //Displays ready text	when swipe is ready.
@@ -168,14 +188,11 @@ function hideReady(){ //Hides ready text when swipe won't work.
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-
-    onEnter('#gnumber', addRecord); //auto add record on swipe 
-	
+    onEnter('#gnumber', addSwipeRecord); //auto add record on swipe 
     onEnter('#new-event', addEvent);
     onEnter('#new-staff', addStaff);    
     $('#add-event-btn').on('click', addEvent);
     $('#add-staff-btn').on('click', addStaff);
-	$('#manual-add').on('click', manualAdd);
 	
     $('#tracker-button').on('click', function() {
         $('#ui-staff').hide();
@@ -300,8 +317,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	$('#swipe-add').on('click', function() { 
 		document.getElementById('gnumber').focus(); //Allows user to swipe card
-		//TODO need to add text that says SWIPE READY in green with cancel button below.
 	});
+    
+    $('#manualAddModalButton').on('click', function(){
+        addManualRecord();
+    });
 
     $('#delete-selected').on('click', function() {
         var rows = $('#data-table :checked').parent().parent()
