@@ -45,7 +45,7 @@ td:nth-child(5)
 }
 
 #manualAddTextInput{
-    width: 150px;
+    width: 60px;
 }
 
 #manual-add{
@@ -56,4 +56,10 @@ td:nth-child(5)
     float: left; 
     width: 250px; 
     margin-right: 10px;
+}
+
+#modalError{
+    margin: 0 auto;
+    color: red;
+    visibility: hidden;
 }

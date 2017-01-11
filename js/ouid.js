@@ -76,11 +76,11 @@ function addManualRecord(){
     if(!isNullOrWhitespace($('#manualAddTextInput').val())){
         var gnum = $('#manualAddTextInput').val();
         if(gnum.length > 3){
-            addRecord(gnum);
+            $('#modalError').css('visibility', 'hidden');
             $('#myModal').modal('hide');
+            addRecord(gnum);
         }else{
-            //TODO add error feedback when 4 digits aren't provided.
-            //$('#swipeStatus').css('visibility', 'hidden');
+            $('#modalError').css('visibility', 'visible');
         }
     }
 }
@@ -92,23 +92,12 @@ function addRecord(gnumber) {
         var eventName = $('#event-name').val();
         var staffName = $('#staff-name').val();
 
-        if (gnum && eventName && staffName) { //gnum must be atleast 4 characters.
-
-            // Only allow numerical or G####### style inputs
-            if (isNaN(gnum)) {
-                if (gnum[0].toLowerCase() == 'g' && !isNaN(gnum.substring(1))) {
-                    gnum = gnum.substring(1);
-                } else {
-                    return;
-                }
-            }
-
+        if (gnum && eventName && staffName) {
             if (!usedRecordsByGID[gnum] || usedRecordsByGID[gnum].indexOf(eventName) == -1) {
                 addRecordByData(gnum, getDateFormatted(), eventName, staffName);
                 saveSwipes();
             }
-            $('#gnumber').val('');
-            $('#gnumber').focus();
+            clearGNum();
         } else {
             if (!eventName) {
                 $('#event-error').css('visibility', 'visible');
@@ -171,6 +160,7 @@ function onEnter(id, callback) {
 
 
 function clearGNum() {
+    console.log("Gnum cleared!");
     $('#gnumber').val('');
     $('#manualAddTextInput').val('');
 }

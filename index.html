@@ -118,10 +118,13 @@
               <h4 class="modal-title">Manual Add</h4>
             </div>
             <div class="modal-body">
-                <div layout="row">
-                    <label>Last 4 Digits of G#</label>
-                    <input type="text" class="form-control" placeholder="####" maxlength="4" id="manualAddTextInput">
-                </div>          
+                <table>
+                    <tr>
+                        <td class="tracker-cell"><label>Last 4 Digits of G#</label></td>
+                         <td class="tracker-cell"><input type="text" class="form-control" placeholder="####" maxlength="4" id="manualAddTextInput"></td>
+                    </tr>
+                </table>
+                <label id="modalError" class="text-center">Must be last 4 numbers</label>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" id="manualAddModalButton">Add</button>
