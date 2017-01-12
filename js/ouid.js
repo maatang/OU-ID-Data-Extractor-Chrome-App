@@ -312,6 +312,28 @@ document.addEventListener('DOMContentLoaded', function() {
     $('#manualAddModalButton').on('click', function(){
         addManualRecord();
     });
+    
+    $('#manual-add').on('click', function() {
+       var eventName = $('#event-name').val();
+        var staffName = $('#staff-name').val();
+
+        if (eventName && staffName) {
+            $('#myModal').modal('show');
+        } else {
+            if (!eventName) {
+                $('#event-error').css('visibility', 'visible');
+            }
+
+            if (!staffName) {
+                $('#staff-error').css('visibility', 'visible');
+            }
+        } 
+    });
+    
+    $('#myModal').on('hidden.bs.modal', function () { //On modal close
+        $('#manualAddTextInput').val('');
+        $('#modalError').css('visibility', 'hidden');
+    })
 
     $('#delete-selected').on('click', function() {
         var rows = $('#data-table :checked').parent().parent()
