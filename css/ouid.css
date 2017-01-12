@@ -63,3 +63,11 @@ td:nth-child(5)
     color: red;
     visibility: hidden;
 }
+
+#add-staff-btn{
+    width: 156.75px;
+}
+
+#add-event-btn{
+    width: 107px;
+}
